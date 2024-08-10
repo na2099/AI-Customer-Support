@@ -27,7 +27,7 @@ const LoginPage = () => {
     return (
         <div className="w-screen h-screen flex justify-center items-center">
             <form className="w-96 p-4 border border-gray-300 rounded-lg" onSubmit={handleLogin}>
-                <h1 className="text-2xl font-bold text-center text-white">Login</h1>
+                <h1 className="text-2xl font-bold text-center">Login</h1>
                     <input
                         type="email"
                         placeholder="Email"
@@ -45,12 +45,12 @@ const LoginPage = () => {
                     {error && <p className="text-red-500 mb-4">{error}</p>}
                     <button
                         type="submit"
-                        className="w-full p-2 bg-blue-500 text-white rounded-lg"
+                        className="w-full p-2 bg-blue-500 rounded-lg"
                     >
                         Login
                     </button>
                     <div className="mt-4 text-center">
-                        <Link href="/register" className="text-white">
+                        <Link href="/register">
                             Don&apos;t have an account? <span className="font-bold">Sign up.</span>
                         </Link>
                     </div>

@@ -27,7 +27,7 @@ const RegisterPage = () => {
     return (
         <div className="w-screen h-screen flex justify-center items-center">
             <form className="flex flex-col w-96 p-4 border border-gray-300 rounded-lg" onSubmit={handleRegister}>
-                <h1 className="text-2xl font-bold text-center text-white">Register</h1> 
+                <h1 className="text-2xl font-bold text-center">Register</h1> 
                 <input
                     type="email"
                     placeholder="Enter your email"
@@ -45,12 +45,12 @@ const RegisterPage = () => {
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <button
                     type="submit"
-                    className="w-full p-2 bg-blue-500 text-white rounded-lg"
+                    className="w-full p-2 bg-blue-500 rounded-lg"
                 >
                     Register
                 </button>
                 <div className="mt-4 text-center">
-                    <Link href="/login" className="text-white">
+                    <Link href="/login">
                         Already have an account? <span className="font-bold">Sign in.</span>
                     </Link>
                 </div>
