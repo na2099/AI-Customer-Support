@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { AppBar, Box, Button, Divider, Link, Stack, TextField, Toolbar, Typography } from '@mui/material';
 
 export default function ChatBox() {
   const [messages, setMessages] = useState([
@@ -26,43 +26,36 @@ export default function ChatBox() {
   const sendMessage = async () => {
     if (!message.trim() || isLoading) return;
     setIsLoading(true);
-
+  
     setMessage('');
     setMessages((messages) => [
       ...messages,
       { role: 'user', content: message },
-      { role: 'assistant', content: '' },
     ]);
-
+  
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ messages: [...messages, { role: 'user', content: message }] }),
+        body: JSON.stringify({ messages: [{ role: 'user', content: message }] }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const text = decoder.decode(value, { stream: true });
-        setMessages((messages) => {
-          let lastMessage = messages[messages.length - 1];
-          let otherMessages = messages.slice(0, messages.length - 1);
-          return [
-            ...otherMessages,
-            { ...lastMessage, content: lastMessage.content + text },
-          ];
-        });
-      }
+  
+      const responseData = await response.json(); // Assuming the response is JSON
+  
+      // Assuming the API returns an array of messages
+      responseData.forEach((item) => {
+        setMessages((currentMessages) => [
+          ...currentMessages,
+          { role: 'assistant', content: item.content },
+        ]);
+      });
+  
     } catch (error) {
       console.error('Error:', error);
       setMessages((messages) => [
@@ -88,24 +81,94 @@ export default function ChatBox() {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      color = 'white'
+      sx = {{
+        bgcolor: '#131b2b',
+        background: 'linear-gradient(to top, #131b2b, #060816, #102937, #060816, #131b2b)'
+      }}
     >
+      <AppBar position="fixed" top={0} style={{backgroundColor: "#060816"}}>
+        <Toolbar sx={{ height: '64px' }}>
+        <img src={'/images/hsai_logo.jpg'} alt="Headstarter logo" style={{ height: '40px' }} />
+        </Toolbar>
+      </AppBar>
       <Stack
         direction={'column'}
-        width="500px"
+        width="900px"
         height="700px"
-        border="1px solid black"
         p={2}
-        spacing={3}
+        spacing={2}
+        sx = {{
+          alignItems: 'center',  // Centers horizontally (in column direction)
+          justifyContent: 'center',  // Centers vertically (in column direction)
+        }}
       >
-        <Stack
+      <Typography variant="body1" color='white' alignSelf='flex-start'>
+        Home &gt; Week 3 &gt; Finished Project
+      </Typography>
+      <Typography variant="h4" color='white' alignSelf='flex-start'>
+        Project 3: AI Customer Support
+      </Typography>
+      <Typography variant="p" color='#727b8b' alignSelf='flex-start'>
+        Our group built an AI-chatbot for our week #3 Headstarter AI Fellowship project! Take a look!
+      </Typography>
+      <Stack direction={'row'} spacing={1} alignSelf='flex-end'>
+          {['Next.js', 'React', 'OpenAI', 'Vercel', 'Streaming', 'Pinecone'].map((tech, index) => (
+            <Button
+              key={index}
+              variant="contained"
+              disableRipple
+              sx={{
+                backgroundColor: '#092733', // Teal background
+                color: 'white',
+                textTransform: 'uppercase',
+                fontSize: '0.6rem',
+                '&:hover': {
+                  backgroundColor: '#092733',
+                },
+                border: '1px solid #06cfb5',
+                borderRadius: '4px',
+              }}
+            >
+              {tech}
+            </Button>
+          ))}
+        </Stack>
+        <Divider
+          sx={{
+            border: '2px solid #131b2b',
+            width: '100%'
+          }}
+        />
+      <Stack
+        direction={'column'}
+        width="700px"
+        height="500px"
+        bgcolor="#060816"
+        border="2px solid #131b2b"
+        borderRadius={2}
+        p={2}
+        spacing={2}
+        alignContent="center" //this should be centered inside parent stack
+      >
+        <Stack 
           direction={'column'}
           spacing={2}
           flexGrow={1}
           overflow="auto"
           maxHeight="100%"
+          style={{
+            borderColor: '#131b2b', 
+            borderWidth: '2px',     
+            borderStyle: 'solid',
+            marginY: 2,
+            borderRadius: '8px',   
+            alignContent: 'center'
+          }}
         >
           {messages.map((message, index) => (
             <Box
+              p={1}
               key={index}
               display="flex"
               justifyContent={
@@ -115,12 +178,13 @@ export default function ChatBox() {
               <Box
                 bgcolor={
                   message.role === 'assistant'
-                    ? 'primary.main'
-                    : 'secondary.main'
+                    ? "#092733"
+                    : '#06cfb5'
                 }
+                border="1px solid #06cfb5"
                 color="white"
-                borderRadius={16}
-                p={3}
+                borderRadius={2}
+                p={2}
               >
                 {message.content}
               </Box>
@@ -136,16 +200,32 @@ export default function ChatBox() {
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={isLoading}
+            InputLabelProps={{
+              style: { color: '#ffffff80' }, 
+            }}
+            sx={{
+              borderRadius: '8px',
+              border: '2px solid #131b2b',
+              color: 'white',
+              '& input': {
+              color: 'white', // Change input text color to white
+              },
+             }}
           />
           <Button
             variant="contained"
             onClick={sendMessage}
             disabled={isLoading}
+            style={{ backgroundColor: '#092733',
+              borderRadius: '8px',
+              border: '2px solid #364ac9'
+             }}
           >
             {isLoading ? 'Sending...' : 'Send'}
           </Button>
         </Stack>
       </Stack>
+    </Stack>
     </Box>
   );
 }

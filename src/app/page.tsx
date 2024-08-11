@@ -4,7 +4,7 @@ import { useEffect, useState, CSSProperties, ReactElement } from 'react';
 import { useRouter } from 'next/navigation'; // Use next/navigation for app directory
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ClimbingBoxLoader } from 'react-spinners';
-import { auth, analytics } from './firebase';
+import { auth } from './firebase';
 
 const HomePage: React.FC = () => {
   const router = useRouter();
@@ -38,15 +38,6 @@ const HomePage: React.FC = () => {
           .catch((err) => {
             console.error('Failed to load the chatbox:', err);
           });
-
-        // Log analytics event
-        if (typeof window !== 'undefined' && analytics) {
-          try {
-            analytics.logEvent('page_view');
-          } catch (err) {
-            console.error('Failed to log analytics event:', err);
-          }
-        }
       }
     }
   }, [user, loading, router]);
