@@ -216,9 +216,10 @@ export default function ChatBox() {
             variant="contained"
             onClick={sendMessage}
             disabled={isLoading}
-            style={{ backgroundColor: '#092733',
+            style={{ backgroundColor: isLoading ? '#092733' : '#364ac9',
               borderRadius: '8px',
-              border: '2px solid #364ac9'
+              border: '2px solid #364ac9',
+              color: isLoading ? '#727b8b' : 'white'
              }}
           >
             {isLoading ? 'Sending...' : 'Send'}

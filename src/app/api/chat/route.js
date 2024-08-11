@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-const systemPrompt = 'Your system prompt here';
+const systemPrompt = `I can perform the following tasks: 
+1) Offer encouraging/validating words regarding your work: You're doing the thing!
+2) Lighten the mood: I can offer a joke if you're feeling stressed out.
+3) Help with errors: Send me your code and I can offer helpful hints
+4) I can send you a TODO list for a component you're building`;
 
 export async function POST(req) {
   const openai = new OpenAI({
