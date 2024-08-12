@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics, isSupported } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { getAnalytics, isSupported } from "firebase/analytics"; // Keep the analytics import from MM_chatbox-fix
 
 // Firebase configuration object
 const firebaseConfig = {

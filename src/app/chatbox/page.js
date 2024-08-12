@@ -6,8 +6,9 @@ import { AppBar, Box, Button, Divider, Link, Stack, TextField, Toolbar, Typograp
 export default function ChatBox() {
   const [messages, setMessages] = useState([
     {
-      role: 'assistant',
-      content: "Hi! I'm the Headstarter support assistant. How can I help you today?",
+      role: "assistant",
+      content:
+        "Hi! I'm the Headstarter support assistant. How can I help you today?",
     },
   ]);
   const [message, setMessage] = useState('');
@@ -26,28 +27,28 @@ export default function ChatBox() {
   const sendMessage = async () => {
     if (!message.trim() || isLoading) return;
     setIsLoading(true);
-  
+
     setMessage('');
     setMessages((messages) => [
       ...messages,
       { role: 'user', content: message },
     ]);
-  
+
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ messages: [{ role: 'user', content: message }] }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       const responseData = await response.json(); // Assuming the response is JSON
-  
+
       // Assuming the API returns an array of messages
       responseData.forEach((item) => {
         setMessages((currentMessages) => [
@@ -55,7 +56,7 @@ export default function ChatBox() {
           { role: 'assistant', content: item.content },
         ]);
       });
-  
+
     } catch (error) {
       console.error('Error:', error);
       setMessages((messages) => [
@@ -151,8 +152,8 @@ export default function ChatBox() {
         spacing={2}
         alignContent="center" //this should be centered inside parent stack
       >
-        <Stack 
-          direction={'column'}
+        <Stack
+          direction={"column"}
           spacing={2}
           flexGrow={1}
           overflow="auto"
@@ -172,7 +173,7 @@ export default function ChatBox() {
               key={index}
               display="flex"
               justifyContent={
-                message.role === 'assistant' ? 'flex-start' : 'flex-end'
+                message.role === "assistant" ? "flex-start" : "flex-end"
               }
             >
               <Box
@@ -192,7 +193,7 @@ export default function ChatBox() {
           ))}
           <div ref={messagesEndRef} />
         </Stack>
-        <Stack direction={'row'} spacing={2}>
+        <Stack direction={"row"} spacing={2}>
           <TextField
             label="Message"
             fullWidth
@@ -222,7 +223,7 @@ export default function ChatBox() {
               color: isLoading ? '#727b8b' : 'white'
              }}
           >
-            {isLoading ? 'Sending...' : 'Send'}
+            {isLoading ? "Sending..." : "Send"}
           </Button>
         </Stack>
       </Stack>
