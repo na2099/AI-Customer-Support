@@ -30,14 +30,7 @@ const HomePage: React.FC = () => {
       } else {
         console.log('User authenticated, loading chatbox.');
         // Import chatbox dynamically and load after dashboard navigation
-        import('./chatbox/page')
-          .then(({ default: ChatBox }) => {
-            setChatBoxComponent(<ChatBox />);
-            console.log('Chatbox loaded successfully.');
-          })
-          .catch((err) => {
-            console.error('Failed to load the chatbox:', err);
-          });
+        router.push('/chatbox');
       }
     }
   }, [user, loading, router]);

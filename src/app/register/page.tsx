@@ -18,7 +18,7 @@ const RegisterPage = () => {
       await createUserWithEmailAndPassword(auth, email, password);
       setEmail("");
       setPassword("");
-      router.push("/dashboard");
+      router.push("/chatbox");
     } catch (err: any) {
       setError(err.message);
     }

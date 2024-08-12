@@ -18,7 +18,7 @@ const LoginPage = () => {
       await signInWithEmailAndPassword(auth, email, password);
       setEmail("");
       setPassword("");
-      router.push("/dashboard");
+      router.push("/chatbox");
     } catch (error: any) {
       setError(error.message);
     }
